@@ -1,10 +1,12 @@
 using UnityEngine;
+using Game.Player;
 
 public class InteractionSystem : MonoBehaviour
 {
     [SerializeField] private Transform interactionPoint;
     [SerializeField] private float interactionRadius = 0.5f;
     [SerializeField] private LayerMask interactableLayer;
+    [SerializeField] private PlayerInputHandler inputHandler;
 
     private IInteractable currentInteractable;
 
@@ -33,7 +35,7 @@ public class InteractionSystem : MonoBehaviour
         }
 
         // Trigger Interaksi dengan tombol E
-        if (Input.GetKeyDown(KeyCode.E) && currentInteractable != null)
+        if (inputHandler.InteractPressed && currentInteractable != null)
         {
             currentInteractable.OnInteract();
         }
