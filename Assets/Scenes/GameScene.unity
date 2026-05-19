@@ -276,11 +276,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c67d5b29bf02744847713accce1d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractionSystem
-  interactionPoint: {fileID: 0}
+  interactionPoint: {fileID: 848632861}
   interactionRadius: 0.5
   interactableLayer:
     serializedVersion: 2
     m_Bits: 8
+  inputHandler: {fileID: 848632866}
 --- !u!212 &848632863
 SpriteRenderer:
   serializedVersion: 2
