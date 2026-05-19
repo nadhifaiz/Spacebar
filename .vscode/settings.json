@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Spacebar.slnx",
+    "dotnet.defaultSolution": "Spcaebar.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }
