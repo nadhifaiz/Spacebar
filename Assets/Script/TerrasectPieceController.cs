@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TerrasectPieceController : MonoBehaviour, IInteractable
 {
-    [SerializeField] private TerrasectManager terrasectManager;
+    
     private JigsawPiece jigsawPiece;
 
     private void Start()
@@ -26,7 +26,7 @@ public class TerrasectPieceController : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        terrasectManager.CollectTerrasectPiece();
+        TerrasectManager.Instance.CollectTerrasectPiece();
         gameObject.SetActive(false); // Remove the piece from the scene
     }
 

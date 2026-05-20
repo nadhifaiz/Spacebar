@@ -15,6 +15,18 @@ public class TerrasectManager : MonoBehaviour
     private GameObject[] TerrasectPiece;
     private bool isTerrasectCrafted = false;
     public static event Action onAllPiecesCollected;
+    public static TerrasectManager Instance {get; private set;}
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Start()
     {

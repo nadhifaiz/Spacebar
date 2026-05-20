@@ -28,6 +28,7 @@ public class UIHandler : MonoBehaviour
             // Cek jika semua piece sudah terkumpul dan belum pernah di-craft sebelumnya
             if (terrasectManager.IsAllPiecesCollected() && !terrasectManager.IsTerrasectCrafted())
             {
+                Debug.LogWarning("Tombol T Terdeteksi");
                 OnCraftButtonClicked(); // Panggil fungsi untuk memulai crafting
                 terrasectManager.SetTerrasectCrafted(true); // Pastikan crafting hanya bisa dilakukan sekali
             }
