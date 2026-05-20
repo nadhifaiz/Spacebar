@@ -118,6 +118,24 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Terrasect"",
+                    ""type"": ""Button"",
+                    ""id"": ""aa6225dd-9b9b-4234-a2ed-5cbb119852b7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jigsaw"",
+                    ""type"": ""Button"",
+                    ""id"": ""18308503-7654-434a-884f-429bac2842fc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -197,6 +215,28 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleGlasses"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""35613fa4-6a72-4e2d-96c9-02b908cb71a4"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Terrasect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aed46fcf-3a2f-4c93-825e-10054846446f"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jigsaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +248,8 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         m_GameInput_Move = m_GameInput.FindAction("Move", throwIfNotFound: true);
         m_GameInput_Interact = m_GameInput.FindAction("Interact", throwIfNotFound: true);
         m_GameInput_ToggleGlasses = m_GameInput.FindAction("ToggleGlasses", throwIfNotFound: true);
+        m_GameInput_Terrasect = m_GameInput.FindAction("Terrasect", throwIfNotFound: true);
+        m_GameInput_Jigsaw = m_GameInput.FindAction("Jigsaw", throwIfNotFound: true);
     }
 
     ~@GameInputs()
@@ -291,6 +333,8 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_GameInput_Move;
     private readonly InputAction m_GameInput_Interact;
     private readonly InputAction m_GameInput_ToggleGlasses;
+    private readonly InputAction m_GameInput_Terrasect;
+    private readonly InputAction m_GameInput_Jigsaw;
     /// <summary>
     /// Provides access to input actions defined in input action map "GameInput".
     /// </summary>
@@ -314,6 +358,14 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GameInput/ToggleGlasses".
         /// </summary>
         public InputAction @ToggleGlasses => m_Wrapper.m_GameInput_ToggleGlasses;
+        /// <summary>
+        /// Provides access to the underlying input action "GameInput/Terrasect".
+        /// </summary>
+        public InputAction @Terrasect => m_Wrapper.m_GameInput_Terrasect;
+        /// <summary>
+        /// Provides access to the underlying input action "GameInput/Jigsaw".
+        /// </summary>
+        public InputAction @Jigsaw => m_Wrapper.m_GameInput_Jigsaw;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -349,6 +401,12 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @ToggleGlasses.started += instance.OnToggleGlasses;
             @ToggleGlasses.performed += instance.OnToggleGlasses;
             @ToggleGlasses.canceled += instance.OnToggleGlasses;
+            @Terrasect.started += instance.OnTerrasect;
+            @Terrasect.performed += instance.OnTerrasect;
+            @Terrasect.canceled += instance.OnTerrasect;
+            @Jigsaw.started += instance.OnJigsaw;
+            @Jigsaw.performed += instance.OnJigsaw;
+            @Jigsaw.canceled += instance.OnJigsaw;
         }
 
         /// <summary>
@@ -369,6 +427,12 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @ToggleGlasses.started -= instance.OnToggleGlasses;
             @ToggleGlasses.performed -= instance.OnToggleGlasses;
             @ToggleGlasses.canceled -= instance.OnToggleGlasses;
+            @Terrasect.started -= instance.OnTerrasect;
+            @Terrasect.performed -= instance.OnTerrasect;
+            @Terrasect.canceled -= instance.OnTerrasect;
+            @Jigsaw.started -= instance.OnJigsaw;
+            @Jigsaw.performed -= instance.OnJigsaw;
+            @Jigsaw.canceled -= instance.OnJigsaw;
         }
 
         /// <summary>
@@ -430,5 +494,19 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnToggleGlasses(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Terrasect" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTerrasect(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Jigsaw" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnJigsaw(InputAction.CallbackContext context);
     }
 }
