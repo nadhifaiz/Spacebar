@@ -23,11 +23,13 @@ public class JigsawPiece : MonoBehaviour
     }
     // ─────────────────────────────
 
+
     private void OnEnable()
     {
         // Simpan posisi acak awal agar bisa kembali jika ditaruh di tempat yang salah
         _startPos = transform.position;
         gameObject.transform.localScale = new Vector3(2f, 2f, 1f);
+        
     }
 
     // Dipanggil terus-menerus saat mouse digeser
