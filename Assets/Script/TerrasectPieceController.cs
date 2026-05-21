@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class TerrasectPieceController : MonoBehaviour, IInteractable
 {
-    
-    private JigsawPiece jigsawPiece;
 
     private void Start()
     {
-        jigsawPiece = GetComponent<JigsawPiece>();
-        if (jigsawPiece == null)
+        // Melapor ke Manager: "Bos, aku sudah spawn! Masukkan aku ke daftar!"
+        if (TerrasectManager.Instance != null)
         {
-            Debug.LogError("JigsawPiece component not found on TerrasectPieceController.");
+            TerrasectManager.Instance.RegisterTerrasectPiece(this.gameObject);
         }
     }
 
@@ -28,16 +26,5 @@ public class TerrasectPieceController : MonoBehaviour, IInteractable
     {
         TerrasectManager.Instance.CollectTerrasectPiece();
         gameObject.SetActive(false); // Remove the piece from the scene
-    }
-
-
-    private void EnableJigsawBehavior()
-    {
-        if (jigsawPiece != null)
-        {
-            // Enable the JigsawPiece component to allow dragging and dropping
-            Debug.Log("Enabling JigsawPiece behavior for " + gameObject.name);
-            jigsawPiece.enabled = true;
-        }
     }
 }

@@ -51,7 +51,7 @@ namespace Game.Player
             _inputs.Dispose();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             // Move dibaca tiap frame (Value action)
             MoveInput = _inputs.GameInput.Move.ReadValue<Vector2>();

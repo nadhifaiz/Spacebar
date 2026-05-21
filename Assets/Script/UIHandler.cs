@@ -6,8 +6,14 @@ public class UIHandler : MonoBehaviour
     [SerializeField] private GameObject notifATCPanel; // Panel untuk notifikasi kalau semua Terrasect Piece sudah dikumpulkan
     [SerializeField] private GameObject TerrasectCraftButton; // Tombol untuk crafting controller, bisa diaktifkan setelah semua piece terkumpul
     [SerializeField] private GameObject puzzlePanel;
-    [SerializeField] private TerrasectManager terrasectManager;
     [SerializeField] private PlayerInputHandler inputHandler; // Untuk mendeteksi input tombol Terrasect
+
+    private TerrasectManager terrasectManager;
+
+    private void Awake()
+    {
+        terrasectManager = TerrasectManager.Instance; // Pastikan TerrasectManager sudah ada di scene dan memiliki Instance yang valid
+    }
 
     private void OnEnable()
     {
@@ -25,9 +31,11 @@ public class UIHandler : MonoBehaviour
     {
         if (inputHandler.TerrasectPressed)
         {
+            Debug.Log("Tombol Terrasect ditekan!");
             // Cek jika semua piece sudah terkumpul dan belum pernah di-craft sebelumnya
             if (terrasectManager.IsAllPiecesCollected() && !terrasectManager.IsTerrasectCrafted())
             {
+                Debug.Log("Semua Terrasect Piece sudah terkumpul! Kamu bisa mulai crafting controller.");
                 Debug.LogWarning("Tombol T Terdeteksi");
                 OnCraftButtonClicked(); // Panggil fungsi untuk memulai crafting
                 terrasectManager.SetTerrasectCrafted(true); // Pastikan crafting hanya bisa dilakukan sekali

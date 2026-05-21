@@ -13,6 +13,10 @@ public class MultiSpawner : MonoBehaviour
     [Header("Titik-titik spawn yang tersedia")]
     public List<Transform> spawnPoints = new List<Transform>();
 
+    // ─── TAMBAHAN BARU: List untuk menyimpan Target Slot ───
+    [Header("Target Slot Puzzle (Urutannya samakan dengan Prefabs)")]
+    public List<Transform> targetSlots = new List<Transform>();
+
     [Header("Parent untuk objek hasil spawn (opsional)")]
     public Transform spawnParent;
 
@@ -50,8 +54,27 @@ public class MultiSpawner : MonoBehaviour
         {
             if (prefabs[i] == null) continue;
 
-            Instantiate(prefabs[i], shuffled[i].position, shuffled[i].rotation, spawnParent);
+            // 1. Tampung objek yang baru saja lahir ke dalam variabel
+            GameObject spawnedPiece = Instantiate(prefabs[i], shuffled[i].position, shuffled[i].rotation, spawnParent);
             Debug.Log($"[MultiSpawner] '{prefabs[i].name}' spawned di '{shuffled[i].name}'");
+
+            // 2. ─── PROSES INJEKSI TARGET SLOT ───
+            // Pastikan list targetSlots tidak kosong dan indeksnya tidak kelewatan batas
+            if (i < targetSlots.Count && targetSlots[i] != null)
+            {
+                // Ambil komponen JigsawPiece dari objek yang baru lahir
+                JigsawPiece pieceScript = spawnedPiece.GetComponent<JigsawPiece>();
+
+                if (pieceScript != null)
+                {
+                    // Kirim target slot yang sesuai ke kepingan puzzle tersebut
+                    pieceScript.SetTarget(targetSlots[i]);
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"[MultiSpawner] Target Slot untuk prefab {prefabs[i].name} belum diisi di Inspector!");
+            }
         }
     }
 

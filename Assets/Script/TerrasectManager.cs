@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic; // Wajib ditambah untuk pakai List
 using UnityEngine;
 
 public class TerrasectManager : MonoBehaviour
@@ -8,14 +9,16 @@ public class TerrasectManager : MonoBehaviour
     [SerializeField] private int terrasectPieceCollected;
 
     [Header("Crafting/Puzzle Settings")]
-    [SerializeField] private PuzzleInputManager puzzleInputManager; // Masukkan script PuzzleInputManager di sini
-    [SerializeField] private Vector2 randomAreaMin; // Batas kiri-bawah area acak (X, Y)
-    [SerializeField] private Vector2 randomAreaMax; // Batas kanan-atas area acak (X, Y)
+    [SerializeField] private PuzzleInputManager puzzleInputManager;
+    [SerializeField] private Vector2 randomAreaMin;
+    [SerializeField] private Vector2 randomAreaMax;
 
-    private GameObject[] TerrasectPiece;
+    // UBAH: Dari Array (GameObject[]) menjadi List agar bisa diisi satuan
+    private List<GameObject> TerrasectPieceList = new List<GameObject>();
+
     private bool isTerrasectCrafted = false;
     public static event Action onAllPiecesCollected;
-    public static TerrasectManager Instance {get; private set;}
+    public static TerrasectManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -30,13 +33,21 @@ public class TerrasectManager : MonoBehaviour
 
     private void Start()
     {
-        TerrasectPiece = GameObject.FindGameObjectsWithTag("TerrasectPiece");
+        // HAPUS GameObject.FindGameObjectsWithTag dari sini
         terrasectPieceCollected = 0;
 
-        // Pastikan input puzzle mati saat game baru mulai agar kepingan tidak bisa ditarik
         if (puzzleInputManager != null)
         {
             puzzleInputManager.enabled = false;
+        }
+    }
+
+    // ─── FUNGSI BARU: Untuk menerima pendaftaran dari kepingan puzzle ───
+    public void RegisterTerrasectPiece(GameObject piece)
+    {
+        if (!TerrasectPieceList.Contains(piece))
+        {
+            TerrasectPieceList.Add(piece);
         }
     }
 
@@ -54,32 +65,37 @@ public class TerrasectManager : MonoBehaviour
 
     public void StartCrafting()
     {
-        // 1. Logic Aktifkan PuzzleInputManager untuk memungkinkan interaksi
         if (puzzleInputManager != null)
         {
-            puzzleInputManager.enabled = true; // Menyalakan script agar player bisa klik & drag
+            Debug.Log("Crafting started! Enabling PuzzleInputManager for player interaction.");
+            puzzleInputManager.enabled = true;
         }
         else
         {
             Debug.LogWarning("Script PuzzleInputManager belum di-drag ke Inspector TerrasectManager!");
         }
 
-        // 2. Logic Acak Posisi & Aktifkan Object
-        for (int i = 0; i < TerrasectPiece.Length; i++)
+        // ─── PERBAIKAN: Ambil posisi kamera utama saat ini ───
+        Vector3 cameraPos = Camera.main.transform.position;
+
+        for (int i = 0; i < TerrasectPieceList.Count; i++)
         {
-            // Bikin posisi X dan Y acak berdasarkan batasan yang kamu set di Inspector
-            float randomX = UnityEngine.Random.Range(randomAreaMin.x, randomAreaMax.x);
-            float randomY = UnityEngine.Random.Range(randomAreaMin.y, randomAreaMax.y);
+            // Ambil nilai acak seperti biasa (ini berfungsi sebagai jarak offset)
+            float randomXOffset = UnityEngine.Random.Range(randomAreaMin.x, randomAreaMax.x);
+            float randomYOffset = UnityEngine.Random.Range(randomAreaMin.y, randomAreaMax.y);
 
-            // Terapkan posisi acaknya (Z tetap 0 karena ini 2D)
-            TerrasectPiece[i].transform.position = new Vector3(randomX, randomY, 0f);
+            // ─── PERBAIKAN: Jumlahkan posisi kamera dengan offset acak ───
+            // Z kita set ke 0 agar kepingan tetap berada di layer 2D dunia, 
+            // sementara X dan Y mengikuti kemana pun kamera berada.
+            Vector3 newSpawnPos = new Vector3(cameraPos.x + randomXOffset, cameraPos.y + randomYOffset, 0f);
 
-            // Aktifkan piece-nya
-            TerrasectPiece[i].SetActive(true);
-            TerrasectPiece[i].GetComponent<JigsawPiece>().enabled = true; // Pastikan JigsawPiece aktif agar bisa di-drag
+            TerrasectPieceList[i].transform.position = newSpawnPos;
+
+            TerrasectPieceList[i].SetActive(true);
+            TerrasectPieceList[i].GetComponent<JigsawPiece>().enabled = true;
         }
 
-        Time.timeScale = 0f; // Pause game saat crafting dimulai, bisa diubah sesuai kebutuhan (misal: biar player tetap bisa bergerak tapi tidak bisa keluar area crafting)
+        Time.timeScale = 0f;
     }
 
     public bool IsAllPiecesCollected()
